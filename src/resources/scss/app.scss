@@ -70,8 +70,8 @@ body{
 {
     cursor: pointer;
 }
-//create css
-.create-choice-container
+
+.crud-choice-container
 {
     display: flex;
     width: 100%;
@@ -79,7 +79,7 @@ body{
 
 }
 
-.center-create-choice
+.center-crud-choice
 {
     margin:auto;
     height: 50%;
@@ -93,23 +93,23 @@ body{
 
 }
 
-.center-create-choice h1{
+.center-crud-choice h1{
     flex:1;
 }
 
-.center-create-choice .create-choice
+.center-crud-choice .crud-choice
 {
     flex: 1.8;
 }
 
-.create-choice {
+.crud-choice {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     
 }
-.create-choice button
+.crud-choice button
 {
     width: 16%;
     height: 50px;
@@ -118,17 +118,17 @@ body{
     font-size: 20px;
 }
 
-.create-choice button a{
+.crud-choice button a{
     text-decoration: none;
     color: black;
     font-weight: 500;
 }
 
-.create-choice button:hover{
+.crud-choice button:hover{
     background-color: rgb(180, 173, 173);
 }
 
-.create-choice button a:hover
+.crud-choice button a:hover
 {
     cursor: pointer;
 }

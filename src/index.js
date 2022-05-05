@@ -25,6 +25,11 @@ app.get('/create',(req,res)=>
     res.render('create')
 })
 
+app.get('/retrieve',(req,res)=>
+{
+    res.render('retrieve')
+})
+
 require('./controller/peopler.controller')(app)
 
 app.listen(port,()=>{
