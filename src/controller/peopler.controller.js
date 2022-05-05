@@ -8,7 +8,7 @@ module.exports = app =>
     })
 
     router.post('/create/people',people.create)
-    router.get('/retrieve/people',people.findAll)
+    router.get('/retrieve-people',people.findAll)
     router.get('/update/people',(req,res)=>
     {
         res.render('people.update')

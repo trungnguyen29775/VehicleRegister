@@ -1,5 +1,6 @@
 const db = require('../models')
 const People = db.People
+const getValue = require  ('../public/js/peopleRetrieve')
 exports.create = (req,res) => 
 {
   
@@ -21,6 +22,7 @@ exports.create = (req,res) =>
         }
         else
         {
+            res.redirect('/')
             People.create(people)
         }
     })()
@@ -32,18 +34,7 @@ exports.create = (req,res) =>
 }
 
 exports.findAll = (req, res) => {
-    People.findAll({
-        attributes: ['Identify_card_ID', 'Name','Dob','Address','Nationality','createAt','updateAt']
-      })
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving people."
-        });
-      });
+  res.render('peopleRetrieve')
 };
 
 exports.update = (req,res)=>
