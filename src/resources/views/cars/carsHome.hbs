@@ -1,4 +1,16 @@
-body {
+<div class="choice-container">
+    <a href="/vehicles" class="back">Back</a>
+    <div class="center-choice">
+    <h1>Cars Database  <br/>What do you want </h1>
+    <div class="choice">
+        <button class="Create"><a href="/cars/create">Create</a></button>
+        <button class="Retrieve"><a href="/cars/retrieve">Retrieve</a></button>
+        <button class="Update"><a href="/cars/update">Update</a></button>
+        <button class="Destroy"><a href="/cars/delete">Destroy</a></button>
+    </div>   
+</div>
+<style>
+    body {
   overflow: hidden; }
 
 .app {
@@ -137,3 +149,4 @@ body {
 .center-choice .choice {
   flex: 1;
 } 
+</style>

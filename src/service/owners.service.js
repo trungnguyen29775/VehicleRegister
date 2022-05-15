@@ -1,28 +1,27 @@
-const Owners = require('../models/owners.model')
-
-exports.create = (req,res) => 
+const db = require('../models')
+const Owners = db.Owners
+exports.create = async (req,res) => 
 {
+  
     try{
-    ;(async function()
-    {
-        const Owners = 
+        const owners = 
         {
             Certificate_ID:req.body.Certificate_ID,
             Identify_card_ID: req.body.Identify_card_ID,
-            Certificate_ID: req.body.Certificate_ID,
+            Vehicle_ID: req.body.Vehicle_ID,
             Date_Register: req.body.Date_Register,
             Address: req.body.Address,
         }
-        const checkID=Owners.findOne({where:{Certificate_ID:Owners.Certificate_ID}})
-        if(checkID!=null)
+        const checkID= await Owners.findOne({where:{Certificate_ID:owners.Certificate_ID}})
+        if(checkID)
         {
-            res.send(`Owners with Certificate_ID: ${Certificate_ID} already exist`)
+            res.send(`Person with Certificate_ID: ${owners.Certificate_ID} already exist`)
         }
         else
         {
-            Owners.create(Owners)
+            await Owners.create(owners)
+            res.redirect('/owners')
         }
-    })()
     }
     catch(err)
     {
@@ -30,65 +29,57 @@ exports.create = (req,res) =>
     }
 }
 
-exports.findAll = (req, res) => {
-    Owners.findAll({
-        attributes: ['Certificate_ID', 'Identify_card_ID','Vehicle_ID','Date_Register','Address','createAt','updateAt']
-      })
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving Owners."
-        });
-      });
+exports.findAll = async (req, res) => {
+  const owners = await Owners.findAll();
+  res.json(owners)
 };
 
-exports.update = (req,res)=>
+exports.update = async (req,res)=>
 {
     const Certificate_ID = req.body.Certificate_ID;
-    Owners.update(req.body, {
-      where: { Certificate_ID: Certificate_ID }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Owner was updated successfully."
-          });
-        } else {
-          res.send({
-            message: `Cannot update Owner with id=${id}. Maybe Owner was not found or req.body is empty!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error updating Vehicle with Certificate_ID=" + Certificate_ID
-        });
-      });
+    const newOwner = await Owners.findOne({where:{Certificate_ID:Certificate_ID}})
+    console.log(Certificate_ID)
+    if(!newOwner)
+    {
+      res.send('Could not find this person')
+    }
+    else
+    {
+      newOwner.Identify_card_ID = req.body.Identify_card_ID;
+      newOwner.Date_Register=req.body.Date_Register;
+      newOwner.Vehicle_ID=req.body.Vehicle_ID;
+      newOwner.Address=req.body.Address;
+      try
+      {
+        await newOwner.save();
+        res.redirect('/owners')
+      }
+      catch(err)
+      {
+        console.log('Some thing went wrong due to ',err)
+      }
+    }
 }
 
-exports.destroy = (req,res)=>
+exports.destroy = async (req,res)=>
 {
     const Certificate_ID = req.body.Certificate_ID;
-    Owners.destroy({
-        where: { Certificate_ID: Certificate_ID }
+    try
+    {
+      const person = await Owners.findOne({where:{Certificate_ID: Certificate_ID}})
+      if(!person)
+      {
+        res.send('This person is not exist')
+      }
+      else{
+        owners.destroy({where:{Certificate_ID:person.Certificate_ID}
       })
-        .then(num => {
-          if (num == 1) {
-            res.send({
-              message: "Owner was deleted successfully!"
-            });
-          } else {
-            res.send({
-              message: `Cannot delete Owner with Certificate_ID=${Certificate_ID}. Maybe Owner was not found!`
-            });
-          }
-        })
-        .catch(err => {
-          res.status(500).send({
-            message: "Could not delete Vehicle with Certificate_ID=" + Certificate_ID
-          });
-        });
+      }
+      res.redirect('/owners')
+    }
+    catch(err)
+    {
+      res.send('Error due to ',err)
+    }
+   
 }

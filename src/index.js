@@ -4,7 +4,7 @@ const path = require('path')
 const app = express()
 const {engine} = require('express-handlebars')
 const db = require("./models");
-db.sequelize.sync();
+// db.sequelize.sync({alter:true});
 app.use(express.static(path.join(__dirname,'public')))
 app.use(express.urlencoded({extended:false}))
 
@@ -20,17 +20,43 @@ app.get('/',(req,res)=>
     res.render('home')
 })
 
-app.get('/create',(req,res)=>
+app.get('/people',(req,res)=>
 {
-    res.render('create')
+    res.render('people/peopleHome')
 })
 
-app.get('/retrieve',(req,res)=>
+app.get('/owners',(req,res)=>
 {
-    res.render('retrieve')
+    res.render('owner/ownerHome')
 })
 
-require('./controller/peopler.controller')(app)
+app.get('/vehicles',(req,res)=>
+{
+    res.render('vehicles/vehiclesHome')
+})
+
+app.get('/cars',(req,res)=>
+{
+    res.render('cars/carsHome')
+})
+
+app.get('/trucks',(req,res)=>
+{
+    res.render('trucks/trucksHome')
+})
+
+app.get('/motorbikes',(req,res)=>
+{
+    res.render('motorbikes/motorbikesHome')
+})
+
+require('./controller/people.controller')(app)
+require('./controller/owners.controller')(app)
+require('./controller/vehicles.controller')(app)
+require('./controller/cars.controller')(app)
+require('./controller/trucks.controller')(app)
+require('./controller/motorbikes.controller')(app)
+
 
 app.listen(port,()=>{
 

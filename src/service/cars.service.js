@@ -1,33 +1,33 @@
-const Cars = require('../models/cars.model')
-
-exports.create = (req,res) => 
+const db = require('../models')
+const Cars = db.Cars  
+exports.create = async (req,res) => 
 {
     try{
-    ;(async function()
     {
-        const Cars = 
+        const cars = 
         {   
             Name: req.body.Name,
             Vehicle_ID:req.body.Vehicle_ID,
             Brand: req.body.Brand,
-            Color: req.body.RegistrationDate,
+            Color: req.body.Color,
             HorsePower: req.body.HorsePower,
             EmptyWeight: req.body.EmptyWeight,
             Origin: req.body.Origin,
             SeatCapacity: req.body.SeatCapacity,
 
         }
-        const checkID=Cars.findOne({where:{Vehicle_ID:Cars.Vehicle_ID}})
-        if(checkID!=null)
+        const checkID=Cars.findOne({where:{Vehicle_ID:cars.Vehicle_ID}})
+        if(!checkID)
         {
             res.send(`Cars with Vehicle_ID: ${Vehicle_ID} already exist`)
         }
         else
         {
-            Cars.create(Cars)
+            await Cars.create(cars)
+            res.redirect('/car')
         }
-    })()
     }
+  }
     catch(err)
     {
         console.log("Error due to ",err)
@@ -35,9 +35,7 @@ exports.create = (req,res) =>
 }
 
 exports.findAll = (req, res) => {
-    Cars.findAll({
-        attributes: ['Name', 'Vehicle_ID','Brand','Color','HorsePower','EmptyWeight','Origin','SeatCapacity','createAt','updateAt']
-      })
+    Cars.findAll()
       .then(data => {
         res.send(data);
       })
@@ -57,9 +55,7 @@ exports.update = (req,res)=>
     })
       .then(num => {
         if (num == 1) {
-          res.send({
-            message: "Car was updated successfully."
-          });
+          res.redirect('cars');
         } else {
           res.send({
             message: `Cannot update Car with id=${id}. Maybe Car was not found or req.body is empty!`
@@ -85,9 +81,7 @@ exports.destroy = (req,res)=>
               message: "Car was deleted successfully!"
             });
           } else {
-            res.send({
-              message: `Cannot delete Car with Vehicle_ID=${Vehicle_ID}. Maybe Vehicle was not found!`
-            });
+            res.redirect('/cars');
           }
         })
         .catch(err => {

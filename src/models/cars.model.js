@@ -35,7 +35,7 @@ module.exports = (sequelize, Sequelize) => {
         allowNull:false
       },
       SeatCapacity: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull:false
       },
     });

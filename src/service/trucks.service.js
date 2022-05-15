@@ -1,33 +1,33 @@
-const Trucks = require('../models/trucks.model')
-
-exports.create = (req,res) => 
+const db = require('../models')
+const Cars = db.Cars  
+exports.create = async (req,res) => 
 {
     try{
-    ;(async function()
     {
-        const Trucks = 
+        const cars = 
         {   
             Name: req.body.Name,
             Vehicle_ID:req.body.Vehicle_ID,
             Brand: req.body.Brand,
-            Color: req.body.RegistrationDate,
+            Color: req.body.Color,
             HorsePower: req.body.HorsePower,
             EmptyWeight: req.body.EmptyWeight,
             Origin: req.body.Origin,
             SeatCapacity: req.body.SeatCapacity,
 
         }
-        const checkID=Trucks.findOne({where:{Vehicle_ID:Trucks.Vehicle_ID}})
-        if(checkID!=null)
+        const checkID=Cars.findOne({where:{Vehicle_ID:cars.Vehicle_ID}})
+        if(!checkID)
         {
-            res.send(`Trucks with Vehicle_ID: ${Vehicle_ID} already exist`)
+            res.send(`Cars with Vehicle_ID: ${Vehicle_ID} already exist`)
         }
         else
         {
-            Trucks.create(Trucks)
+            await Cars.create(cars)
+            res.redirect('/car')
         }
-    })()
     }
+  }
     catch(err)
     {
         console.log("Error due to ",err)
@@ -35,16 +35,14 @@ exports.create = (req,res) =>
 }
 
 exports.findAll = (req, res) => {
-    Trucks.findAll({
-        attributes: ['Name', 'Vehicle_ID','Brand','Color','HorsePower','EmptyWeight','Origin','SeatCapacity','createAt','updateAt']
-      })
+    Cars.findAll()
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving Trucks."
+            err.message || "Some error occurred while retrieving Cars."
         });
       });
 };
@@ -52,23 +50,21 @@ exports.findAll = (req, res) => {
 exports.update = (req,res)=>
 {
     const Vehicle_ID = req.body.Vehicle_ID;
-    Trucks.update(req.body, {
+    Cars.update(req.body, {
       where: { Vehicle_ID: Vehicle_ID }
     })
       .then(num => {
         if (num == 1) {
-          res.send({
-            message: "Truck was updated successfully."
-          });
+          res.redirect('cars');
         } else {
           res.send({
-            message: `Cannot update Truck with id=${id}. Maybe Truck was not found or req.body is empty!`
+            message: `Cannot update Car with id=${id}. Maybe Car was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error updating Truck with Vehicle_ID=" + Vehicle_ID
+          message: "Error updating Car with Vehicle_ID=" + Vehicle_ID
         });
       });
 }
@@ -76,23 +72,21 @@ exports.update = (req,res)=>
 exports.destroy = (req,res)=>
 {
     const Vehicle_ID = req.body.Vehicle_ID;
-    Trucks.destroy({
+    Cars.destroy({
         where: { Vehicle_ID: Vehicle_ID }
       })
         .then(num => {
           if (num == 1) {
             res.send({
-              message: "Truck was deleted successfully!"
+              message: "Car was deleted successfully!"
             });
           } else {
-            res.send({
-              message: `Cannot delete Truck with Vehicle_ID=${Vehicle_ID}. Maybe Vehicle was not found!`
-            });
+            res.redirect('/cars');
           }
         })
         .catch(err => {
           res.status(500).send({
-            message: "Could not delete Truck with Vehicle_ID=" + Vehicle_ID
+            message: "Could not delete Car with Vehicle_ID=" + Vehicle_ID
           });
         });
 }

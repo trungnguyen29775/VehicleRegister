@@ -1,10 +1,8 @@
-const Vehicles = require('../models/vehicles.model')
-
-exports.create = (req,res) => 
+const db = require('../models')
+const Vehicles = db.Vehicles
+exports.create = async (req,res) => 
 {
     try{
-    ;(async function()
-    {
         const vehicles = 
         {
             Vehicle_ID:req.body.Vehicle_ID,
@@ -15,15 +13,15 @@ exports.create = (req,res) =>
             License_plate: req.body.License_plate,
         }
         const checkID=Vehicles.findOne({where:{Vehicle_ID:vehicles.Vehicle_ID}})
-        if(checkID!=null)
+        if(!checkID)
         {
-            res.send(`Vehicles with Vehicle_ID: ${Vehicle_ID} already exist`)
+            res.send(`Vehicles with Vehicle_ID: ${vehicles.Vehicle_ID} already exist`)
         }
         else
         {
-            Vehicles.create(vehicles)
+            await Vehicles.create(vehicles)
+            res.redirect('/vehicles')
         }
-    })()
     }
     catch(err)
     {
@@ -32,9 +30,7 @@ exports.create = (req,res) =>
 }
 
 exports.findAll = (req, res) => {
-    Vehicles.findAll({
-        attributes: ['Vehicle_ID', 'Name','CertificateID','RegistrationDate','Type','License_plate','createAt','updateAt']
-      })
+    Vehicles.findAll()
       .then(data => {
         res.send(data);
       })
@@ -54,9 +50,7 @@ exports.update = (req,res)=>
     })
       .then(num => {
         if (num == 1) {
-          res.send({
-            message: "Vehicle was updated successfully."
-          });
+          res.redirect('/vehicles')
         } else {
           res.send({
             message: `Cannot update Vehicle with id=${id}. Maybe Vehicle was not found or req.body is empty!`
@@ -78,9 +72,7 @@ exports.destroy = (req,res)=>
       })
         .then(num => {
           if (num == 1) {
-            res.send({
-              message: "Vehicle was deleted successfully!"
-            });
+            res.redirect('/vehicles')
           } else {
             res.send({
               message: `Cannot delete Vehicle with Vehicle_ID=${Vehicle_ID}. Maybe Vehicle was not found!`
