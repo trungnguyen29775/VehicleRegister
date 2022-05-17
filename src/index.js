@@ -2,9 +2,10 @@ const express = require('express')
 const port = 3000
 const path = require('path')
 const app = express()
+app.set('json spaces', 2);
 const {engine} = require('express-handlebars')
 const db = require("./models");
-// db.sequelize.sync({alter:true});
+db.sequelize.sync({alter:true});
 app.use(express.static(path.join(__dirname,'public')))
 app.use(express.urlencoded({extended:false}))
 

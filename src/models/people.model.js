@@ -21,6 +21,9 @@ module.exports = (sequelize, Sequelize) => {
         allowNull:false
       },
       
+    },
+    {
+      timestamps: false
     });
     return People;
   };

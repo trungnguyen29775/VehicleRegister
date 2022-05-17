@@ -1,5 +1,6 @@
 const db = require('../models')
 const People = db.People
+var fs = require('fs');
 exports.create = async (req,res) => 
 {
   
@@ -30,7 +31,6 @@ exports.create = async (req,res) =>
 }
 
 exports.findAll = async (req, res) => {
-  // res.render('people/retrieve')
   const people = await People.findAll();
   res.json(people)
 };

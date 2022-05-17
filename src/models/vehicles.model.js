@@ -31,6 +31,9 @@ module.exports = (sequelize, Sequelize) => {
         allowNull:false,
         unique:true
       },
+    },
+    {
+      timestamps: false
     });
     return Vehicles;
   };
