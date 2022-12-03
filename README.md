@@ -2,6 +2,7 @@
 ## contributor: 
 Nguyen Dang Lan Anh
 Nguyen Tran Minh Trung
+
 Để có thể chạy được bình thường bạn cần làm theo như sau
 Bước thứ nhất bạn cần điều chỉnh cấu hình máy chủ sao cho phù hợp với máy chủ của bạn
 
