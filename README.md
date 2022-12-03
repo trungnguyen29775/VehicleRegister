@@ -1,4 +1,7 @@
 # project_pdm
+## contributor: 
+Nguyen Dang Lan Anh
+Nguyen Tran Minh Trung
 Để có thể chạy được bình thường bạn cần làm theo như sau
 Bước thứ nhất bạn cần điều chỉnh cấu hình máy chủ sao cho phù hợp với máy chủ của bạn
 
@@ -19,4 +22,6 @@ Sau đó bạn khởi động câu lệnh "npm start"
 ![image](https://user-images.githubusercontent.com/91869278/168474200-5d761e49-fa3d-4f39-b7fb-7d1d0f3c50dc.png)
 
 lên trình duyệt và vào link http://localhost:3000/
+
+
 
